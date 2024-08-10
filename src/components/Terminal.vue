@@ -60,7 +60,7 @@ const typeCommand = () => {
       const fullCommand = commands[commandIndex.value];
       const finalText = fullCommand.slice(5).replace(/^"|"$/g, '');
       outputLines.value.push(finalText);
-
+      
       setTimeout(() => {
         currentInput.value = '';
         setTimeout(() => {
@@ -68,7 +68,7 @@ const typeCommand = () => {
           typeCommand();
         }, 500);
       }, 1500);
-
+      
       charIndex.value = 0;
     }
   } else {
@@ -81,6 +81,9 @@ const typeCommand = () => {
 };
 
 const processUserCommand = (input) => {
+  if (typeof input !== 'string') {
+    return;
+  }
   switch (input.toLowerCase()) {
     case 'help':
       outputLines.value.push(' - 🚨 help');
@@ -114,6 +117,9 @@ const processUserCommand = (input) => {
 const handleKeyPress = (event) => {
   if (!isUserInputEnabled.value) return;
 
+  // Evita que se repita la entrada
+  event.preventDefault();
+
   if (event.key === 'Enter') {
     if (currentInput.value.trim() !== '') {
       outputLines.value.push(currentInput.value);
@@ -125,6 +131,7 @@ const handleKeyPress = (event) => {
   } else if (event.key.length === 1) {
     currentInput.value += event.key;
   }
+  scrollToBottom(); // Asegura el scroll después de la entrada
 };
 
 const blinkCursor = () => {
@@ -151,8 +158,15 @@ onMounted(() => {
   focusHiddenInput();
   typeCommand();
   blinkCursor();
+
+  // Solo para enfocar el input
+  window.addEventListener('touchstart', focusHiddenInput);
   window.addEventListener('keydown', handleKeyPress);
-  window.addEventListener('touchstart', handleKeyPress);
+
+  // Ajusta el scroll cuando se redimensiona la ventana
+  window.addEventListener('resize', () => {
+    setTimeout(scrollToBottom, 300); // Ajuste para dar tiempo al teclado
+  });
 });
 </script>
 
@@ -173,8 +187,8 @@ onMounted(() => {
   border-radius: 10px;
   color: #fff;
   padding: 0 0px;
-  box-shadow: 
-    0 0 10px rgba(255, 255, 255, 0.5),
+  box-shadow:   
+  0 0 10px rgba(255, 255, 255, 0.5),
     0 0 20px rgba(255, 255, 255, 0.4),
     0 0 30px rgba(255, 255, 255, 0.3);
   display: flex;
@@ -287,7 +301,6 @@ onMounted(() => {
 .cursor:not(.active) {
   opacity: 0;
 }
-
 .hidden-input {
   position: absolute;
   top: 0;
@@ -295,16 +308,15 @@ onMounted(() => {
   width: 1px;
   height: 1px;
   opacity: 0;
-  pointer-events: auto;
+  pointer-events: none;
 }
-
 .click-capture-layer {
   position: absolute;
   top: 259px;
   left: 0;
   width: 370px;
   height: 328px;
-  z-index: 101;
+  z-index: 101; /* Por encima de otros elementos */
   background-color: transparent;
 }
 
@@ -334,8 +346,7 @@ onMounted(() => {
     font-size: 0.8rem;
   }
 
-  .output,
-  .input-area {
+  .output, .input-area {
     padding: 5px;
     font-size: 0.9rem;
   }
@@ -357,11 +368,9 @@ onMounted(() => {
     height: 20px;
     font-size: 0.8rem;
   }
-
   .terminal-background {
     top: 20px;
   }
-
   .button {
     width: 8px;
     height: 8px;
@@ -371,8 +380,7 @@ onMounted(() => {
     font-size: 0.7rem;
   }
 
-  .output,
-  .input-area {
+  .output, .input-area {
     padding: 8px;
     font-size: 0.8rem;
   }
