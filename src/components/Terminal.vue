@@ -1,5 +1,6 @@
 <template>
   <div class="terminal-container">
+    <div class="click-capture-layer" @click="focusHiddenInput"></div>
     <div class="terminal">
       <div class="terminal-header">
         <div class="header-buttons">
@@ -16,12 +17,12 @@
       <div class="input-area">
         <span class="prompt">$ </span>
         <input
-        ref="hiddenInput"
-        v-model="currentInput"
-        class="hidden-input"
-        @blur="focusHiddenInput"
-        @keyup.enter="processUserCommand"
-      />
+          ref="hiddenInput"
+          v-model="currentInput"
+          class="hidden-input"
+          @blur="focusHiddenInput"
+          @keyup.enter="processUserCommand"
+        />
         <span class="input-text">{{ currentInput }}</span>
         <span class="cursor" :class="{ active: cursorActive }">|</span>
       </div>
@@ -44,11 +45,10 @@ const isUserInputEnabled = ref(false);
 const commands = [
   'echo "Hola!👋 me llamo Carles"',
   'echo "Bienvenido a mi curriculum interactivo"',
-  'echo "Soy un apasinado del diseño y desarrollo web 👨🏻‍💻"',
+  'echo "Soy un apasionado del diseño y desarrollo web 👨🏻‍💻"',
   'echo "Mi especialidad es el Front end"',
   'echo "Mis skills más potentes son Javascript & VUE"',
 ];
-
 
 const typeCommand = () => {
   if (commandIndex.value < commands.length) {
@@ -58,11 +58,9 @@ const typeCommand = () => {
       setTimeout(typeCommand, 100);
     } else {
       const fullCommand = commands[commandIndex.value];
-      const finalText = fullCommand
-        .slice(5)
-        .replace(/^"|"$/g, '');
+      const finalText = fullCommand.slice(5).replace(/^"|"$/g, '');
       outputLines.value.push(finalText);
-      
+
       setTimeout(() => {
         currentInput.value = '';
         setTimeout(() => {
@@ -70,7 +68,7 @@ const typeCommand = () => {
           typeCommand();
         }, 500);
       }, 1500);
-      
+
       charIndex.value = 0;
     }
   } else {
@@ -93,14 +91,10 @@ const processUserCommand = (input) => {
       outputLines.value.push(' - ❌ clear');
       break;
     case 'experience':
-      outputLines.value.push(
-        ''
-      );
+      outputLines.value.push('');
       break;
     case 'projects':
-      outputLines.value.push(
-        ''
-      );
+      outputLines.value.push('');
       break;
     case 'contact':
       outputLines.value.push('');
@@ -139,16 +133,18 @@ const blinkCursor = () => {
 };
 
 const scrollToBottom = () => {
-nextTick(() => {
-  const outputEl = outputRef.value;
-  if (outputEl) {
-    outputEl.scrollTop = outputEl.scrollHeight;
-  }
-});
+  nextTick(() => {
+    const outputEl = outputRef.value;
+    if (outputEl) {
+      outputEl.scrollTop = outputEl.scrollHeight;
+    }
+  });
 };
 
 const focusHiddenInput = () => {
-  hiddenInput.value.focus();
+  if (hiddenInput.value) {
+    hiddenInput.value.focus();
+  }
 };
 
 onMounted(() => {
@@ -156,8 +152,8 @@ onMounted(() => {
   typeCommand();
   blinkCursor();
   window.addEventListener('keydown', handleKeyPress);
+  window.addEventListener('touchstart', handleKeyPress);
 });
-
 </script>
 
 <style scoped>
@@ -167,7 +163,7 @@ onMounted(() => {
   align-items: center;
   min-height: 100vh;
   position: relative;
-  z-index: 999;
+  z-index: 100;
 }
 
 .terminal {
@@ -177,8 +173,8 @@ onMounted(() => {
   border-radius: 10px;
   color: #fff;
   padding: 0 0px;
-  box-shadow:   
-  0 0 10px rgba(255, 255, 255, 0.5),
+  box-shadow: 
+    0 0 10px rgba(255, 255, 255, 0.5),
     0 0 20px rgba(255, 255, 255, 0.4),
     0 0 30px rgba(255, 255, 255, 0.3);
   display: flex;
@@ -247,7 +243,7 @@ onMounted(() => {
 .output,
 .input-area {
   position: relative;
-  z-index: 1;
+  z-index: 102;
 }
 
 .output {
@@ -291,6 +287,7 @@ onMounted(() => {
 .cursor:not(.active) {
   opacity: 0;
 }
+
 .hidden-input {
   position: absolute;
   top: 0;
@@ -298,7 +295,17 @@ onMounted(() => {
   width: 1px;
   height: 1px;
   opacity: 0;
-  pointer-events: none;
+  pointer-events: auto;
+}
+
+.click-capture-layer {
+  position: absolute;
+  top: 259px;
+  left: 0;
+  width: 370px;
+  height: 328px;
+  z-index: 101;
+  background-color: transparent;
 }
 
 @media (max-width: 768px) {
@@ -314,7 +321,7 @@ onMounted(() => {
     font-size: 0.9rem;
   }
 
-  .terminal-background{
+  .terminal-background {
     top: 20px;
   }
 
@@ -327,7 +334,8 @@ onMounted(() => {
     font-size: 0.8rem;
   }
 
-  .output, .input-area {
+  .output,
+  .input-area {
     padding: 5px;
     font-size: 0.9rem;
   }
@@ -349,9 +357,11 @@ onMounted(() => {
     height: 20px;
     font-size: 0.8rem;
   }
-  .terminal-background{
+
+  .terminal-background {
     top: 20px;
   }
+
   .button {
     width: 8px;
     height: 8px;
@@ -361,7 +371,8 @@ onMounted(() => {
     font-size: 0.7rem;
   }
 
-  .output, .input-area {
+  .output,
+  .input-area {
     padding: 8px;
     font-size: 0.8rem;
   }
