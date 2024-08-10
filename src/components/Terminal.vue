@@ -85,19 +85,19 @@ const processUserCommand = (input) => {
       break;
     case 'experience':
       outputLines.value.push(
-        'QUE MARAVILLA EL CHORRI'
+        ''
       );
       break;
     case 'projects':
       outputLines.value.push(
-        'verdes, rojas, amarillas, que buenas que ricas'
+        ''
       );
       break;
     case 'contact':
-      outputLines.value.push('una rallica per fer la gracia');
+      outputLines.value.push('');
       break;
     case 'download_cv':
-      outputLines.value.push('una rallica per fer la gracia');
+      outputLines.value.push('');
       break;
     case 'clear':
       outputLines.value = [];
