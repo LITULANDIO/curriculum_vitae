@@ -1,0 +1,26 @@
+{
+  "name": "mi-cv-interactivo",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@tsparticles/vue3": "^3.0.1",
+    "tsparticles": "^3.5.0",
+    "tsparticles-engine": "^2.12.0",
+    "tsparticles-slim": "^2.12.0",
+    "typescript": "^5.5.4",
+    "vue": "^3.4.35",
+    "vue-tsc": "^2.0.29",
+    "vue3-particles": "^2.12.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^5.1.2",
+    "sass": "^1.77.8",
+    "vite": "^5.4.0"
+  }
+}
