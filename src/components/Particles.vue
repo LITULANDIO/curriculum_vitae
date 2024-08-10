@@ -1,6 +1,4 @@
 <template>
-  <!-- tsParticles Repository: https://github.com/matteobruni/tsparticles -->
-  <!-- tsParticles Website: https://particles.js.org -->
   <Particles
     id="tsparticles"
     :options="options"

@@ -22,140 +22,128 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref, onMounted, nextTick } from 'vue';
 
-export default {
-  name: 'Terminal',
-  setup() {
-    const outputLines = ref([]);
-    const currentInput = ref('');
-    const cursorActive = ref(true);
-    const outputRef = ref(null);
+const outputLines = ref([]);
+const currentInput = ref('');
+const cursorActive = ref(true);
+const outputRef = ref(null);
+const commandIndex = ref(0);
+const charIndex = ref(0);
+const isUserInputEnabled = ref(false);
+const commands = [
+  'echo "Hola!👋 me llamo Carles"',
+  'echo "Bienvenido a mi curriculum interactivo"',
+  'echo "Soy un apasinado del diseño y desarrollo web 👨🏻‍💻"',
+  'echo "Mi especialidad es el Front end"',
+  'echo "Mis skills más potentes son Javascript & VUE"',
+];
 
 
-    const commands = [
-      'echo "Hola!👋 me llamo Carles"',
-      'echo "Bienvenido a mi curriculum interactivo"',
-      'echo "Soy un apasinado del diseño y desarrollo web 👨🏻‍💻"',
-      'echo "Mi especialidad es el Front end"',
-      'echo "Mis skills más potentes son Javascript & VUE"',
-    ];
-
-    const commandIndex = ref(0);
-    const charIndex = ref(0);
-    const isUserInputEnabled = ref(false);
-
-    const typeCommand = () => {
-      if (commandIndex.value < commands.length) {
-        if (charIndex.value < commands[commandIndex.value].length) {
-          currentInput.value += commands[commandIndex.value].charAt(charIndex.value);
-          charIndex.value++;
-          setTimeout(typeCommand, 100);
-        } else {
-          const fullCommand = commands[commandIndex.value];
-          const finalText = fullCommand
-            .slice(5)
-            .replace(/^"|"$/g, '');
-          outputLines.value.push(finalText);
-          
-          setTimeout(() => {
-            currentInput.value = '';
-            setTimeout(() => {
-              commandIndex.value++;
-              typeCommand();
-            }, 500);
-          }, 1500);
-          
-          charIndex.value = 0;
-        }
-      } else {
-        outputLines.value.push('');
-        outputLines.value.push('Terminal lista para recibir comandos. 🚀');
-        outputLines.value.push('Escribe "help" para ver los comandos disponibles.');
-        isUserInputEnabled.value = true;
-      }
-      scrollToBottom();
-    };
-
-    const processUserCommand = (input) => {
-      switch (input.toLowerCase()) {
-        case 'help':
-          outputLines.value.push(' - 🚨 help');
-          outputLines.value.push(' - 💼 experience');
-          outputLines.value.push(' - 💻 projects');
-          outputLines.value.push(' - 📄 download_cv');
-          outputLines.value.push(' - 📩 contact');
-          outputLines.value.push(' - ❌ clear');
-          break;
-        case 'experience':
-          outputLines.value.push(
-            'QUE MARAVILLA EL CHORRI'
-          );
-          break;
-        case 'projects':
-          outputLines.value.push(
-            'verdes, rojas, amarillas, que buenas que ricas'
-          );
-          break;
-        case 'contact':
-          outputLines.value.push('una rallica per fer la gracia');
-          break;
-        case 'download_cv':
-          outputLines.value.push('una rallica per fer la gracia');
-          break;
-        case 'clear':
-          outputLines.value = [];
-          break;
-        default:
-          outputLines.value.push(`Comando no reconocido: ${input}`);
-      }
-      scrollToBottom();
-    };
-
-    const handleKeyPress = (event) => {
-      if (!isUserInputEnabled.value) return;
-
-      if (event.key === 'Enter') {
-        if (currentInput.value.trim() !== '') {
-          outputLines.value.push(currentInput.value);
-          processUserCommand(currentInput.value);
-          currentInput.value = '';
-        }
-      } else if (event.key === 'Backspace') {
-        currentInput.value = currentInput.value.slice(0, -1);
-      } else if (event.key.length === 1) {
-        currentInput.value += event.key;
-      }
-    };
-
-    const blinkCursor = () => {
-      cursorActive.value = !cursorActive.value;
-      setTimeout(blinkCursor, 500);
-    };
-
-    const scrollToBottom = () => {
-   nextTick(() => {
-     const outputEl = outputRef.value;
-     if (outputEl) {
-       outputEl.scrollTop = outputEl.scrollHeight;
-     }
-   });
+const typeCommand = () => {
+  if (commandIndex.value < commands.length) {
+    if (charIndex.value < commands[commandIndex.value].length) {
+      currentInput.value += commands[commandIndex.value].charAt(charIndex.value);
+      charIndex.value++;
+      setTimeout(typeCommand, 100);
+    } else {
+      const fullCommand = commands[commandIndex.value];
+      const finalText = fullCommand
+        .slice(5)
+        .replace(/^"|"$/g, '');
+      outputLines.value.push(finalText);
+      
+      setTimeout(() => {
+        currentInput.value = '';
+        setTimeout(() => {
+          commandIndex.value++;
+          typeCommand();
+        }, 500);
+      }, 1500);
+      
+      charIndex.value = 0;
+    }
+  } else {
+    outputLines.value.push('');
+    outputLines.value.push('Terminal lista para recibir comandos. 🚀');
+    outputLines.value.push('Escribe "help" para ver los comandos disponibles.');
+    isUserInputEnabled.value = true;
+  }
+  scrollToBottom();
 };
 
-    onMounted(() => {
-      typeCommand();
-      blinkCursor();
-      window.addEventListener('keydown', handleKeyPress);
-    });
-
-    return {
-      outputLines,
-      currentInput,
-      cursorActive,
-    };
-  },
+const processUserCommand = (input) => {
+  switch (input.toLowerCase()) {
+    case 'help':
+      outputLines.value.push(' - 🚨 help');
+      outputLines.value.push(' - 💼 experience');
+      outputLines.value.push(' - 💻 projects');
+      outputLines.value.push(' - 📄 download_cv');
+      outputLines.value.push(' - 📩 contact');
+      outputLines.value.push(' - ❌ clear');
+      break;
+    case 'experience':
+      outputLines.value.push(
+        'QUE MARAVILLA EL CHORRI'
+      );
+      break;
+    case 'projects':
+      outputLines.value.push(
+        'verdes, rojas, amarillas, que buenas que ricas'
+      );
+      break;
+    case 'contact':
+      outputLines.value.push('una rallica per fer la gracia');
+      break;
+    case 'download_cv':
+      outputLines.value.push('una rallica per fer la gracia');
+      break;
+    case 'clear':
+      outputLines.value = [];
+      break;
+    default:
+      outputLines.value.push(`Comando no reconocido: ${input}`);
+  }
+  scrollToBottom();
 };
+
+const handleKeyPress = (event) => {
+  if (!isUserInputEnabled.value) return;
+
+  if (event.key === 'Enter') {
+    if (currentInput.value.trim() !== '') {
+      outputLines.value.push(currentInput.value);
+      processUserCommand(currentInput.value);
+      currentInput.value = '';
+    }
+  } else if (event.key === 'Backspace') {
+    currentInput.value = currentInput.value.slice(0, -1);
+  } else if (event.key.length === 1) {
+    currentInput.value += event.key;
+  }
+};
+
+const blinkCursor = () => {
+  cursorActive.value = !cursorActive.value;
+  setTimeout(blinkCursor, 500);
+};
+
+const scrollToBottom = () => {
+nextTick(() => {
+  const outputEl = outputRef.value;
+  if (outputEl) {
+    outputEl.scrollTop = outputEl.scrollHeight;
+  }
+});
+};
+
+onMounted(() => {
+  typeCommand();
+  blinkCursor();
+  window.addEventListener('keydown', handleKeyPress);
+});
+
 </script>
 
 <style scoped>
