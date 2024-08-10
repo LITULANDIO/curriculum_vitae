@@ -94,16 +94,16 @@ const processUserCommand = (input) => {
       outputLines.value.push(' - ❌ clear');
       break;
     case 'experience':
-      outputLines.value.push('');
+      outputLines.value.push('TODO: link per veure la meva trajectoria professional');
       break;
     case 'projects':
-      outputLines.value.push('');
+      outputLines.value.push('TODO: link per veure els meus projectes');
       break;
     case 'contact':
-      outputLines.value.push('');
+      outputLines.value.push('TODO: link per veure un formulari de contacte');
       break;
     case 'download_cv':
-      outputLines.value.push('');
+      outputLines.value.push('TODO: descarga del meu cv');
       break;
     case 'clear':
       outputLines.value = [];
