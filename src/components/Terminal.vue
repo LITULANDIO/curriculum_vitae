@@ -162,14 +162,14 @@ onMounted(() => {
   height: 425px;
   border-radius: 10px;
   color: #fff;
-  padding: 0 0px; /* El padding se maneja en la cabecera */
+  padding: 0 0px;
   box-shadow:   
-  0 0 10px rgba(255, 255, 255, 0.5), /* Lado izquierdo */
-    0 0 20px rgba(255, 255, 255, 0.4), /* Lado derecho */
-    0 0 30px rgba(255, 255, 255, 0.3); /* Parte inferior */
+  0 0 10px rgba(255, 255, 255, 0.5),
+    0 0 20px rgba(255, 255, 255, 0.4),
+    0 0 30px rgba(255, 255, 255, 0.3);
   display: flex;
   flex-direction: column;
-  overflow: hidden; /* Oculta el desbordamiento */
+  overflow: hidden;
   font-family: "Courier New", Courier, monospace;
   background-color: transparent;
   text-align: left;
@@ -177,15 +177,15 @@ onMounted(() => {
 
 .terminal-header {
   width: 100%;
-  height: 30px; /* Altura del marco superior */
-  background-color: #fff; /* Color de fondo blanco para el marco superior */
+  height: 30px;
+  background-color: #fff;
   border-radius: 10px 10px 0 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 10px;
   box-sizing: border-box;
-  z-index: 1; /* Pon el marco superior delante del fondo */
+  z-index: 1;
 }
 
 .header-buttons {
@@ -216,16 +216,16 @@ onMounted(() => {
   flex: 1;
   text-align: center;
   font-weight: bold;
-  color: #333; /* Texto negro para el marco superior */
+  color: #333;
 }
 
 .terminal-background {
   position: absolute;
-  top: 25px; /* Empuja el fondo hacia abajo para que el marco superior quede visible */
+  top: 25px;
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.8); /* Fondo con opacidad */
+  background-color: rgba(0, 0, 0, 0.8);
   border-radius: 0 0 10px 10px;
   z-index: 0;
 }
@@ -241,7 +241,7 @@ onMounted(() => {
   overflow-y: auto;
   white-space: pre-wrap;
   padding-bottom: 10px;
-  padding: 10px; /* Agrega un poco de espacio en la parte superior para la salida */
+  padding: 10px;
 }
 
 .input-area {
@@ -278,18 +278,17 @@ onMounted(() => {
   opacity: 0;
 }
 
-/* Ajustes específicos para pantallas pequeñas */
 @media (max-width: 768px) {
   .terminal {
-    height: auto; /* Permite que el terminal se ajuste a la altura del contenido */
+    height: auto;
     width: 100%;
-    max-width: 600px; /* Máximo ancho para mantener un tamaño adecuado */
-    height: 425px; /* Mantiene la altura fija en dispositivos móviles */
+    max-width: 600px;
+    height: 425px;
   }
 
   .terminal-header {
-    height: 25px; /* Ajusta el tamaño del encabezado en pantallas pequeñas */
-    font-size: 0.9rem; /* Reduce el tamaño de la fuente del título del encabezado */
+    height: 25px;
+    font-size: 0.9rem;
   }
 
   .terminal-background{
@@ -302,30 +301,30 @@ onMounted(() => {
   }
 
   .header-title {
-    font-size: 0.8rem; /* Reduce el tamaño del texto del título */
+    font-size: 0.8rem;
   }
 
   .output, .input-area {
-    padding: 5px; /* Reduce el padding en pantallas pequeñas */
-    font-size: 0.9rem; /* Ajusta el tamaño de la fuente del input */
+    padding: 5px;
+    font-size: 0.9rem;
   }
 
   .input-text {
-    font-size: 0.9rem; /* Ajusta el tamaño de la fuente del input */
+    font-size: 0.9rem;
   }
 }
 
 @media (max-width: 480px) {
   .terminal {
-    height: auto; /* Permite que el terminal se ajuste a la altura del contenido */
+    height: auto;
     width: 370px;
-    max-width: 400px; /* Máximo ancho para mantener un tamaño adecuado */
-    height: 325px; /* Mantiene la altura fija en dispositivos móviles más pequeños */
+    max-width: 400px;
+    height: 325px;
   }
 
   .terminal-header {
-    height: 20px; /* Ajusta aún más el tamaño del encabezado en pantallas muy pequeñas */
-    font-size: 0.8rem; /* Ajusta el tamaño de la fuente del título del encabezado */
+    height: 20px;
+    font-size: 0.8rem;
   }
   .terminal-background{
     top: 20px;
@@ -336,16 +335,16 @@ onMounted(() => {
   }
 
   .header-title {
-    font-size: 0.7rem; /* Ajusta el tamaño del texto del título */
+    font-size: 0.7rem;
   }
 
   .output, .input-area {
-    padding: 8px; /* Reduce aún más el padding en pantallas pequeñas */
-    font-size: 0.8rem; /* Ajusta el tamaño de la fuente del input */
+    padding: 8px;
+    font-size: 0.8rem;
   }
 
   .input-text {
-    font-size: 0.8rem; /* Ajusta el tamaño de la fuente del input */
+    font-size: 0.8rem;
   }
 }
 </style>
