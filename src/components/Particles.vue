@@ -103,7 +103,13 @@ onMounted(() => {
 
 <style>
 #tsparticles {
-  position: relative;
-  z-index: 99;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #000;
+  z-index: 9;
+  overflow: hidden;
 }
 </style>
