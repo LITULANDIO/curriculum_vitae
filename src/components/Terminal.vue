@@ -15,6 +15,13 @@
       </div>
       <div class="input-area">
         <span class="prompt">$ </span>
+        <input
+        ref="hiddenInput"
+        v-model="currentInput"
+        class="hidden-input"
+        @blur="focusHiddenInput"
+        @keyup.enter="processUserCommand"
+      />
         <span class="input-text">{{ currentInput }}</span>
         <span class="cursor" :class="{ active: cursorActive }">|</span>
       </div>
@@ -28,10 +35,12 @@ import { ref, onMounted, nextTick } from 'vue';
 const outputLines = ref([]);
 const currentInput = ref('');
 const cursorActive = ref(true);
+const hiddenInput = ref(null);
 const outputRef = ref(null);
 const commandIndex = ref(0);
 const charIndex = ref(0);
 const isUserInputEnabled = ref(false);
+
 const commands = [
   'echo "Hola!👋 me llamo Carles"',
   'echo "Bienvenido a mi curriculum interactivo"',
@@ -138,7 +147,12 @@ nextTick(() => {
 });
 };
 
+const focusHiddenInput = () => {
+  hiddenInput.value.focus();
+};
+
 onMounted(() => {
+  focusHiddenInput();
   typeCommand();
   blinkCursor();
   window.addEventListener('keydown', handleKeyPress);
@@ -276,6 +290,15 @@ onMounted(() => {
 
 .cursor:not(.active) {
   opacity: 0;
+}
+.hidden-input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
 }
 
 @media (max-width: 768px) {
